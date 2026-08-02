@@ -1,19 +1,103 @@
-Linux kernel
-============
+<div align="center">
 
-There are several guides for kernel developers and users. These guides can
-be rendered in a number of formats, like HTML and PDF. Please read
-Documentation/admin-guide/README.rst first.
+# Tropsi X Kernel
 
-In order to build the documentation, use ``make htmldocs`` or
-``make pdfdocs``.  The formatted documentation can also be read online at:
+**A clean, independent Non-GKI kernel for the OnePlus kona platform**
 
-    https://www.kernel.org/doc/html/latest/
+[Telegram](https://t.me/TropsiXKernel) · [XDA Thread](https://xdaforums.com/t/kernel-4-19-op8-pro-t-tropsi_x-vx-x-custom-kernelsu.4794907/) · [Issues](https://github.com/TropsPk/Tropsi_X_Kernel/issues)
 
-There are various text files in the Documentation/ subdirectory,
-several of them using the Restructured Text markup notation.
-See Documentation/00-INDEX for a list of what is contained in each file.
+![License](https://img.shields.io/badge/License-GPLv2-blue?style=for-the-badge)
+![Kernel](https://img.shields.io/badge/Kernel-4.19.325--cip132-critical?style=for-the-badge)
+![Platform](https://img.shields.io/badge/Platform-kona-lightgrey?style=for-the-badge)
+![Telegram](https://img.shields.io/badge/Telegram-Join-26A5E4?style=for-the-badge&logo=telegram&logoColor=white)
 
-Please read the Documentation/process/changes.rst file, as it contains the
-requirements for building and running the kernel, and information about
-the problems which may result by upgrading your kernel.
+</div>
+
+---
+
+> [!IMPORTANT]
+> Flashing a custom kernel carries risk of instability, bootloops, or other issues.
+> You are flashing at your own risk — the maintainer is not responsible for any damage to your device.
+
+---
+
+## About
+
+Tropsi X is an independent kernel build for the OnePlus kona platform, based on [ppajda's XTD kernel](https://github.com/ppajda). Built with a full LLVM toolchain and tuned for a snappier, more efficient daily-driver experience.
+
+**Branch:** `sm8250_t_13.1_op8`
+
+---
+
+## Features
+
+- [x] **Toolchain**
+  - [x] Neutron Clang 19.0.0 + Neutron LLD
+  - [x] Full LLVM build (Clang + LLD, no GCC)
+- [x] **Root**
+  - [x] KernelSU support baked in
+- [x] **Performance**
+  - [x] Zen I/O scheduler
+  - [x] ZRAM swap tuned to 4GB with LZ4 compression
+  - [x] Input boost frequency and duration tuning
+- [x] **Networking**
+  - [x] Westwood TCP congestion control
+
+---
+
+## Supported Devices
+
+| Device | Codename | Models |
+|---|---|---|
+| OnePlus 8 | `instantnoodle` | IN2010 / IN2011 / IN2013 / IN2015 / IN2017 / IN2019 |
+| OnePlus 8 Pro | `instantnoodlep` | IN2020 / IN2021 / IN2023 / IN2025 |
+| OnePlus 8T | `kebab` | KB2000 / KB2001 / KB2003 / KB2005 |
+| OnePlus 9R | `lemonades` | LE2100 / LE2101 |
+
+---
+
+## Installation
+
+1. Grab the latest build from [Releases](https://github.com/TropsPk/Tropsi_X_Kernel/releases).
+2. Flash via custom recovery (AnyKernel3 zip) or Fastboot.
+3. Reboot and enjoy.
+
+---
+
+## Build from Source
+
+```bash
+git clone https://github.com/TropsPk/Tropsi_X_Kernel.git -b sm8250_t_13.1_op8
+cd Tropsi_X_Kernel
+
+make O=out ARCH=arm64 <your_defconfig>
+make O=out ARCH=arm64 -j$(nproc --all)
+```
+
+---
+
+## Credits
+
+- [ppajda](https://github.com/ppajda) — XTD kernel base
+- [Neutron Clang](https://github.com/Neutron-Toolchains) — compiler toolchain
+- [KernelSU](https://github.com/tiann/KernelSU) — root implementation
+- OnePlus / CAF — original kona kernel sources
+
+---
+
+## Support
+
+If Tropsi X has been useful to you, consider donating:
+
+**USDT (TRC20):**
+```
+TTL3HHUeyfDTXZ5RFqDr4Q379f8DXUJtjb
+```
+
+---
+
+## License
+
+GPL-2.0, in line with the upstream Linux kernel. See [COPYING](COPYING).
+
+</div>
