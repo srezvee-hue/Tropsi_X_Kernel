@@ -4,10 +4,9 @@
 
 **Custom Non-GKI Kernel for the OnePlus kona platform**
 
-![Kernel](https://img.shields.io/badge/KERNEL-4.19.325--cip132-blue?style=for-the-badge)
-![Root](https://img.shields.io/badge/ROOT-ReSukiSU-orange?style=for-the-badge)
-![SUSFS](https://img.shields.io/badge/SUSFS-v2.2.0-success?style=for-the-badge)
-![Base](https://img.shields.io/badge/BASE-ppajda%20XTD-critical?style=for-the-badge)
+![Kernel](https://img.shields.io/badge/KERNEL-4.19.325--cip132-blue?style=for-the-badge) ![Root](https://img.shields.io/badge/ROOT-ReSukiSU-orange?style=for-the-badge) ![SUSFS](https://img.shields.io/badge/SUSFS-v2.2.0-success?style=for-the-badge) ![Base](https://img.shields.io/badge/BASE-ppajda%20XTD-critical?style=for-the-badge)
+
+[Telegram](https://t.me/TropsiXKernel) · [Releases](https://github.com/TropsPk/Tropsi_X_Kernel/releases) · [Issues](https://github.com/TropsPk/Tropsi_X_Kernel/issues)
 
 </div>
 
@@ -16,14 +15,18 @@
 > [!WARNING]
 > Flashing a custom kernel carries risk of instability, bootloops, or other issues. You flash at your own risk — the maintainer is not responsible for any damage to your device.
 
+---
+
 ## 📱 Supported Devices
 
 | Device | Codename |
 |:---|:---|
-| OnePlus 8 | instantnoodle |
-| OnePlus 8 Pro | instantnoodlep |
-| OnePlus 8T | kebab |
-| OnePlus 9R | lemonades |
+| OnePlus 8 | `instantnoodle` |
+| OnePlus 8 Pro | `instantnoodlep` |
+| OnePlus 8T | `kebab` |
+| OnePlus 9R | `lemonades` |
+
+---
 
 ## 🧩 Build Info
 
@@ -36,17 +39,23 @@
 | Base | ppajda's XTD kernel |
 | Branch | `sm8250_t_13.1_op8` |
 
+---
+
 ## ✨ Why Tropsi X
 
 - Buttery smooth day-to-day performance
 - ReSukiSU + SUSFS v2.2.0 root, hidden clean
 - Full LLVM build — no GCC in the chain
 
+---
+
 ## 🚀 Flashing
 
 1. Grab the latest build from [Releases](https://github.com/TropsPk/Tropsi_X_Kernel/releases)
 2. Flash via custom recovery (AnyKernel3 zip), or `fastboot boot` to test first
 3. Reboot
+
+---
 
 ## 🙏 Credits
 
@@ -58,11 +67,14 @@
 | [SUSFS](https://gitlab.com/simonpunk/susfs4ksu) | Root-hiding subsystem |
 | OnePlus / CAF | Original kona kernel sources |
 
+---
+
 ## ❤️ Support
 
-USDT (TRC20): `TTL3HHUeyfDTXZ5RFqDr4Q379f8DXUJtjb`
-Telegram: https://t.me/TropsiXKernel
+**USDT (TRC20):** `TTL3HHUeyfDTXZ5RFqDr4Q379f8DXUJtjb`
+
+---
 
 ## License
 
-GPL-2.0, in line with the upstream Linux kernel. See COPYING.
+GPL-2.0, in line with the upstream Linux kernel. See [COPYING](COPYING).
