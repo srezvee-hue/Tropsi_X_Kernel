@@ -1,63 +1,68 @@
-# 🐧 Tropsi X Kernel
+<div align="center">
 
-A clean, independent Non-GKI kernel for the OnePlus kona platform, based on ppajda's XTD kernel.
+# ⚡ Tropsi X Kernel
 
-**Telegram:** https://t.me/TropsiXKernel
-**XDA Thread:** https://xdaforums.com/t/kernel-4-19-op8-pro-t-tropsi_x-vx-x-custom-kernelsu.4794907/
+**Custom Non-GKI Kernel for the OnePlus kona platform**
 
----
+![Kernel](https://img.shields.io/badge/KERNEL-4.19.325--cip132-blue?style=for-the-badge)
+![Root](https://img.shields.io/badge/ROOT-KernelSU-orange?style=for-the-badge)
+![Toolchain](https://img.shields.io/badge/TOOLCHAIN-Neutron%20Clang-success?style=for-the-badge)
+![Base](https://img.shields.io/badge/BASE-ppajda%20XTD-critical?style=for-the-badge)
 
-> ⚠️ Flashing a custom kernel carries risk of instability, bootloops, or other issues. You flash at your own risk — the maintainer is not responsible for any damage to your device.
-
----
-
-## About
-
-Built with a full LLVM toolchain and tuned for a snappier, more efficient daily-driver experience.
-
-**Branch:** `sm8250_t_13.1_op8`
+</div>
 
 ---
 
-## ✨ Features
-
-- Neutron Clang 19.0.0 + Neutron LLD (full LLVM, no GCC)
-- KernelSU support baked in
-- Zen I/O scheduler
-- ZRAM swap tuned to 4GB with LZ4 compression
-- Input boost frequency and duration tuning
-- Westwood TCP congestion control
-
----
+> [!WARNING]
+> Flashing a custom kernel carries risk of instability, bootloops, or other issues. You flash at your own risk — the maintainer is not responsible for any damage to your device.
 
 ## 📱 Supported Devices
 
-OnePlus 8, 8 Pro, 8T, 9R
+| Device | Codename |
+|:---|:---|
+| OnePlus 8 | instantnoodle |
+| OnePlus 8 Pro | instantnoodlep |
+| OnePlus 8T | kebab |
+| OnePlus 9R | lemonades |
 
----
+## 🧩 Build Info
 
-## 📥 Installation
+| Component | Details |
+|:---|:---|
+| Kernel | Linux 4.19.325-cip132 |
+| Root Solution | KernelSU |
+| Toolchain | Neutron Clang 19.0.0 + Neutron LLD |
+| Base | ppajda's XTD kernel |
+| Branch | `sm8250_t_13.1_op8` |
 
-1. Grab the latest build from the Releases page.
-2. Flash via custom recovery (AnyKernel3 zip) or Fastboot.
-3. Reboot.
+## ✨ Features
 
----
+| Feature | Detail |
+|:---|:---|
+| I/O Scheduler | Zen |
+| ZRAM | 4GB, LZ4 compression |
+| TCP Congestion Control | Westwood |
+| Input Boost | Tuned frequency/duration |
+
+## 🚀 Flashing
+
+1. Grab the latest build from [Releases](https://github.com/TropsPk/Tropsi_X_Kernel/releases)
+2. Flash via custom recovery (AnyKernel3 zip), or `fastboot boot` to test first
+3. Reboot
 
 ## 🙏 Credits
 
-- ppajda — XTD kernel base
-- Neutron Clang — compiler toolchain
-- KernelSU — root implementation
-- OnePlus / CAF — original kona kernel sources
-
----
+| Contributor | Role |
+|:---|:---|
+| [ppajda](https://github.com/ppajda) | XTD kernel base |
+| [Neutron Toolchains](https://github.com/Neutron-Toolchains) | Compiler toolchain |
+| [KernelSU](https://github.com/tiann/KernelSU) | Root implementation |
+| OnePlus / CAF | Original kona kernel sources |
 
 ## ❤️ Support
 
 USDT (TRC20): `TTL3HHUeyfDTXZ5RFqDr4Q379f8DXUJtjb`
-
----
+Telegram: https://t.me/TropsiXKernel
 
 ## License
 
