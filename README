@@ -5,8 +5,8 @@
 **Custom Non-GKI Kernel for the OnePlus kona platform**
 
 ![Kernel](https://img.shields.io/badge/KERNEL-4.19.325--cip132-blue?style=for-the-badge)
-![Root](https://img.shields.io/badge/ROOT-KernelSU-orange?style=for-the-badge)
-![Toolchain](https://img.shields.io/badge/TOOLCHAIN-Neutron%20Clang-success?style=for-the-badge)
+![Root](https://img.shields.io/badge/ROOT-ReSukiSU-orange?style=for-the-badge)
+![SUSFS](https://img.shields.io/badge/SUSFS-v2.2.0-success?style=for-the-badge)
 ![Base](https://img.shields.io/badge/BASE-ppajda%20XTD-critical?style=for-the-badge)
 
 </div>
@@ -30,19 +30,17 @@
 | Component | Details |
 |:---|:---|
 | Kernel | Linux 4.19.325-cip132 |
-| Root Solution | KernelSU |
+| Root Solution | ReSukiSU |
+| SUSFS | v2.2.0 |
 | Toolchain | Neutron Clang 19.0.0 + Neutron LLD |
 | Base | ppajda's XTD kernel |
 | Branch | `sm8250_t_13.1_op8` |
 
-## ✨ Features
+## ✨ Why Tropsi X
 
-| Feature | Detail |
-|:---|:---|
-| I/O Scheduler | Zen |
-| ZRAM | 4GB, LZ4 compression |
-| TCP Congestion Control | Westwood |
-| Input Boost | Tuned frequency/duration |
+- Buttery smooth day-to-day performance
+- ReSukiSU + SUSFS v2.2.0 root, hidden clean
+- Full LLVM build — no GCC in the chain
 
 ## 🚀 Flashing
 
@@ -56,7 +54,8 @@
 |:---|:---|
 | [ppajda](https://github.com/ppajda) | XTD kernel base |
 | [Neutron Toolchains](https://github.com/Neutron-Toolchains) | Compiler toolchain |
-| [KernelSU](https://github.com/tiann/KernelSU) | Root implementation |
+| [ReSukiSU](https://github.com/ReSukiSU/ReSukiSU) | Root implementation |
+| [SUSFS](https://gitlab.com/simonpunk/susfs4ksu) | Root-hiding subsystem |
 | OnePlus / CAF | Original kona kernel sources |
 
 ## ❤️ Support
