@@ -33,9 +33,15 @@
 
 ## 📖 About
 
-**Tropsi X** is a non-GKI kernel for the OnePlus 8, 8 Pro, and 8T, built on top of [**ppajda's XTD kernel**](https://github.com/ppajda) with manually integrated **KernelSU-Next** hooks, a modern LLVM toolchain, and a systemless AnyKernel3 installer. It's built for daily-driver stability first, with performance and root access layered on top without breaking OTA compatibility.
+**Tropsi X** is a non-GKI kernel for the OnePlus 8, 8 Pro, and 8T, built on top of
+[**ppajda's XTD kernel**](https://github.com/ppajda) with manually integrated
+**KernelSU-Next** hooks, a modern LLVM toolchain, and a systemless AnyKernel3 installer.
+It's built for daily-driver stability first, with performance and root access layered
+on top without breaking OTA compatibility.
 
-> ⚠️ **Disclaimer:** Flashing a custom kernel carries risk of instability, bootloops, or other issues. You flash entirely at your own risk — the maintainer is not responsible for any damage to your device.
+> ⚠️ **Disclaimer:** Flashing a custom kernel carries risk of instability, bootloops,
+> or other issues. You flash entirely at your own risk — the maintainer is not
+> responsible for any damage to your device.
 
 ---
 
@@ -70,26 +76,14 @@
 
 ## 🏗️ Building From Source
 
+```bash
+# Clone the source
 git clone -b sm8250_t_13.1_op8 https://github.com/TropsPk/Tropsi_X_Kernel.git
 cd Tropsi_X_Kernel
+
+# Grab the Neutron Clang toolchain, then point your environment at it
 export PATH="$(pwd)/../neutron-clang/bin:$PATH"
+
+# Build (adjust config target for your device)
 make O=out ARCH=arm64 <device_defconfig>
 make O=out ARCH=arm64 -j$(nproc --all)
-
-> The finished `Image.gz`, `dtbo.img`, and related artifacts land in `out/arch/arm64/boot/` and get packaged with AnyKernel3 for flashing.
-
----
-
-## 🙏 Credits
-
-- [**ppajda**](https://github.com/ppajda) — base XTD kernel
-- [**KernelSU-Next**](https://github.com/rifsxd/KernelSU-Next) — root solution
-- [**osm0sis**](https://github.com/osm0sis/AnyKernel3) — AnyKernel3 flashable template
-- OnePlus / CodeAurora — upstream kernel source
-- Everyone testing and reporting issues on XDA ❤️
-
----
-
-## 📜 License
-
-This kernel is released under the [**GPL-2.0 License**](COPYING), in keeping with the license of the Linux kernel it's derived from.
