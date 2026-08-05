@@ -42,7 +42,7 @@
 - 🧠 **ReSukiSU** — manually integrated hooks for root management without a modified boot image
 - 🥷 **SUSFS v2.2.0** — kernel-level root/module hiding for stronger detection resistance
 - 📦 **Systemless AnyKernel3 installer** — OTA-friendly, compatible with autoflash apps
-- 🐧 **Linux 4.19.325-cip132** base, rebased on `blu_spark`
+- 🐧 **Linux 4.19.325-cip132**
 
 ---
 
