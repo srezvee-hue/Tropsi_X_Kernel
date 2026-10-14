@@ -77,8 +77,14 @@ jobs:
           export CROSS_COMPILE_ARM32=arm-linux-gnueabi-
           
           cd "$KERNEL_DIR"
+          
+          # First initialize the base template parameters
           make O="$OUT_DIR" ARCH=arm64 "$DEFCONFIG"
           
+          # Automatically inject safe default values for all new unmapped CPU features
+          make O="$OUT_DIR" ARCH=arm64 olddefconfig
+          
+          # Execute the core toolchain compilation cleanly
           make O="$OUT_DIR" -j"$JOBS" ARCH=arm64 \
             CC=clang \
             LLVM=1 \
