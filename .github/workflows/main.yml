@@ -34,14 +34,30 @@ jobs:
             libssl-dev libelf-dev clang lld gcc-aarch64-linux-gnu \
             g++-aarch64-linux-gnu binutils-aarch64-linux-gnu rsync
 
-      - name: Download Standard AOSP Clang Toolchain
+      - name: Disable OPLUS Anti-Root Security Guards
         shell: bash
         run: |
-          mkdir -p ${{ github.workspace }}/clang
-          cd ${{ github.workspace }}
-          wget https://googlesource.com
-          tar -xzf clang-r450784e.tar.gz -C ${{ github.workspace }}/clang
-          rm clang-r450784e.tar.gz
+          set -euxo pipefail
+          cd "$KERNEL_DIR"
+          
+          # Force set the OPLUS Env make security hooks to bypass checks
+          if [ -f OplusKernelEnvConfig.mk ]; then
+            echo "[+] Bypassing security checks in OplusKernelEnvConfig.mk"
+            sed -i 's/ifeq (\$(OPLUS_FEATURE_SECURE_ROOTGUARD),yes)/ifeq (\$(OPLUS_FEATURE_SECURE_ROOTGUARD),no)/g' OplusKernelEnvConfig.mk
+            sed -i 's/ifeq (\$(OPLUS_FEATURE_SECURE_EXECGUARD),yes)/ifeq (\$(OPLUS_FEATURE_SECURE_EXECGUARD),no)/g' OplusKernelEnvConfig.mk
+            sed -i 's/ifeq (\$(OPLUS_FEATURE_SECURE_MOUNTGUARD),yes)/ifeq (\$(OPLUS_FEATURE_SECURE_MOUNTGUARD),no)/g' OplusKernelEnvConfig.mk
+          fi
+
+          # Neutralize specific kernel anti-root assertions from the main target config profile
+          TARGET_DEFCONFIG="arch/arm64/configs/$DEFCONFIG"
+          if [ -f "$TARGET_DEFCONFIG" ]; then
+            echo "[+] Disabling anti-root configs in defconfig"
+            sed -i '/CONFIG_OPLUS_ROOT_CHECK/d' "$TARGET_DEFCONFIG"
+            sed -i '/CONFIG_OPLUS_EXECVE_BLOCK/d' "$TARGET_DEFCONFIG"
+            sed -i '/CONFIG_OPLUS_MOUNT_BLOCK/d' "$TARGET_DEFCONFIG"
+            
+            echo -e "\nCONFIG_OPLUS_ROOT_CHECK=n\nCONFIG_OPLUS_EXECVE_BLOCK=n\nCONFIG_OPLUS_MOUNT_BLOCK=n" >> "$TARGET_DEFCONFIG"
+          fi
 
       - name: Fix Legacy Python Scripts
         shell: bash
@@ -59,7 +75,6 @@ jobs:
           set -euxo pipefail
           mkdir -p "$OUT_DIR"
           
-          export PATH="${{ github.workspace }}/clang/bin:$PATH"
           export CROSS_COMPILE=aarch64-linux-gnu-
           export CROSS_COMPILE_ARM32=arm-linux-gnueabi-
           
