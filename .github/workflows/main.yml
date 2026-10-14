@@ -30,7 +30,7 @@ jobs:
           sudo apt-get update
           sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
             build-essential git wget curl ca-certificates bc bison flex \
-            python3 python3-pip python3-setuptools zip unzip ccache ncurses-dev \
+            python3 python3-pip python3-setuptools zip unzip ncurses-dev \
             libssl-dev libelf-dev clang lld gcc-aarch64-linux-gnu \
             g++-aarch64-linux-gnu binutils-aarch64-linux-gnu rsync
 
@@ -40,7 +40,6 @@ jobs:
           set -euxo pipefail
           cd "$KERNEL_DIR"
           
-          # Force set the OPLUS Env make security hooks to bypass checks
           if [ -f OplusKernelEnvConfig.mk ]; then
             echo "[+] Bypassing security checks in OplusKernelEnvConfig.mk"
             sed -i 's/ifeq (\$(OPLUS_FEATURE_SECURE_ROOTGUARD),yes)/ifeq (\$(OPLUS_FEATURE_SECURE_ROOTGUARD),no)/g' OplusKernelEnvConfig.mk
@@ -48,7 +47,6 @@ jobs:
             sed -i 's/ifeq (\$(OPLUS_FEATURE_SECURE_MOUNTGUARD),yes)/ifeq (\$(OPLUS_FEATURE_SECURE_MOUNTGUARD),no)/g' OplusKernelEnvConfig.mk
           fi
 
-          # Neutralize specific kernel anti-root assertions from the main target config profile
           TARGET_DEFCONFIG="arch/arm64/configs/$DEFCONFIG"
           if [ -f "$TARGET_DEFCONFIG" ]; then
             echo "[+] Disabling anti-root configs in defconfig"
@@ -81,12 +79,15 @@ jobs:
           cd "$KERNEL_DIR"
           make O="$OUT_DIR" ARCH=arm64 "$DEFCONFIG"
           
+          # Added explicit ccache bypass parameters to completely skip cache lookups
           make O="$OUT_DIR" -j"$JOBS" ARCH=arm64 \
             CC=clang \
             LLVM=1 \
             LLVM_IAS=1 \
             CLANG_TRIPLE=aarch64-linux-gnu- \
-            KCFLAGS="-w"
+            KCFLAGS="-w" \
+            ccache=n \
+            USE_CCACHE=0
 
       - name: Package AnyKernel3 Zip Artifact
         if: success()
