@@ -31,8 +31,19 @@ jobs:
           sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
             build-essential git wget curl ca-certificates bc bison flex \
             python3 python3-pip python3-setuptools zip unzip ncurses-dev \
-            libssl-dev libelf-dev clang lld gcc-aarch64-linux-gnu \
+            libssl-dev libelf-dev lld gcc-aarch64-linux-gnu \
             g++-aarch64-linux-gnu binutils-aarch64-linux-gnu rsync
+
+      - name: Download Official AOSP Clang Toolchain
+        shell: bash
+        run: |
+          set -euxo pipefail
+          mkdir -p ${{ github.workspace }}/clang
+          cd ${{ github.workspace }}
+          # Pulls the verified standalone direct binary archive tarball from Google Git servers
+          wget https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/main/clang-r450784e.tar.gz
+          tar -xzf clang-r450784e.tar.gz -C ${{ github.workspace }}/clang
+          rm clang-r450784e.tar.gz
 
       - name: Disable OPLUS Anti-Root Security Guards
         shell: bash
@@ -73,21 +84,20 @@ jobs:
           set -euxo pipefail
           mkdir -p "$OUT_DIR"
           
+          # Point paths explicitly to the extracted official Google binaries
+          export PATH="${{ github.workspace }}/clang/bin:$PATH"
           export CROSS_COMPILE=aarch64-linux-gnu-
           export CROSS_COMPILE_ARM32=arm-linux-gnueabi-
           
           cd "$KERNEL_DIR"
           make O="$OUT_DIR" ARCH=arm64 "$DEFCONFIG"
           
-          # Added explicit ccache bypass parameters to completely skip cache lookups
           make O="$OUT_DIR" -j"$JOBS" ARCH=arm64 \
             CC=clang \
             LLVM=1 \
             LLVM_IAS=1 \
             CLANG_TRIPLE=aarch64-linux-gnu- \
-            KCFLAGS="-w" \
-            ccache=n \
-            USE_CCACHE=0
+            KCFLAGS="-w"
 
       - name: Package AnyKernel3 Zip Artifact
         if: success()
