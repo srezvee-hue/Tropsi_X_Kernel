@@ -2,7 +2,7 @@ name: Kernel Autobuild
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, OpKona ]
   pull_request:
   workflow_dispatch:
 
@@ -12,11 +12,8 @@ jobs:
     timeout-minutes: 180
 
     env:
-      # Point this to your actual kernel source repo if different from the current repo
-      KERNEL_GIT_URL: https://github.com/${{ github.repository }}
-      KERNEL_BRANCH: lineage-21
-      KERNEL_DIR: ${{ github.workspace }}/kernel
-      DEFCONFIG: kona_defconfig
+      KERNEL_DIR: ${{ github.workspace }}
+      DEFCONFIG: vendor/kona-perf_defconfig
       ARCH: arm64
       SUBARCH: arm64
       OUT_DIR: ${{ github.workspace }}/out
@@ -37,12 +34,14 @@ jobs:
             libssl-dev libelf-dev clang lld gcc-aarch64-linux-gnu \
             g++-aarch64-linux-gnu binutils-aarch64-linux-gnu rsync
 
-      - name: Fetch kernel source
+      - name: Download Standard AOSP Clang Toolchain
         shell: bash
         run: |
-          set -euxo pipefail
-          rm -rf "$KERNEL_DIR"
-          git clone --depth 1 --branch "$KERNEL_BRANCH" "$KERNEL_GIT_URL" "$KERNEL_DIR"
+          mkdir -p ${{ github.workspace }}/clang
+          cd ${{ github.workspace }}
+          wget https://googlesource.com
+          tar -xzf clang-r450784e.tar.gz -C ${{ github.workspace }}/clang
+          rm clang-r450784e.tar.gz
 
       - name: Fix Legacy Python Scripts
         shell: bash
@@ -50,7 +49,7 @@ jobs:
           set -euxo pipefail
           cd "$KERNEL_DIR"
           if [ -f scripts/gcc-wrapper.py ]; then
-            sed -i "s/print \([^,]*\),/print(\1,end=' ')/g" scripts/gcc-wrapper.py || true
+            sed -i "s/print \\([^,]*\\),/print(\\1,end=' ')/g" scripts/gcc-wrapper.py || true
             sed -i 's/print \(.*\)/print(\1)/g' scripts/gcc-wrapper.py || true
           fi
 
@@ -59,14 +58,14 @@ jobs:
         run: |
           set -euxo pipefail
           mkdir -p "$OUT_DIR"
-
+          
           export PATH="${{ github.workspace }}/clang/bin:$PATH"
           export CROSS_COMPILE=aarch64-linux-gnu-
           export CROSS_COMPILE_ARM32=arm-linux-gnueabi-
-
+          
           cd "$KERNEL_DIR"
           make O="$OUT_DIR" ARCH=arm64 "$DEFCONFIG"
-
+          
           make O="$OUT_DIR" -j"$JOBS" ARCH=arm64 \
             CC=clang \
             LLVM=1 \
@@ -80,20 +79,17 @@ jobs:
         run: |
           set -euxo pipefail
           cd ${{ github.workspace }}
-          git clone --depth=1 https://github.com/osm0sis/AnyKernel3.git AnyKernel3
+          git clone --depth=1 https://github.com AnyKernel3
           rm -rf AnyKernel3/.git AnyKernel3/README.md || true
-
+          
           if [ -f "$OUT_DIR/arch/arm64/boot/Image.gz-dtb" ]; then
             cp "$OUT_DIR/arch/arm64/boot/Image.gz-dtb" AnyKernel3/
-          elif [ -f "$OUT_DIR/arch/arm64/boot/Image" ]; then
-            cp "$OUT_DIR/arch/arm64/boot/Image" AnyKernel3/
-          elif [ -f "$OUT_DIR/arch/arm64/boot/Image.gz" ]; then
-            cp "$OUT_DIR/arch/arm64/boot/Image.gz" AnyKernel3/
+          elif [ -f "$OUT_DIR/arch/arm64/boot/Image-dtb" ]; then
+            cp "$OUT_DIR/arch/arm64/boot/Image-dtb" AnyKernel3/
           else
-            echo "No kernel Image found in $OUT_DIR/arch/arm64/boot" >&2
-            exit 1
+            cp "$OUT_DIR/arch/arm64/boot/Image" AnyKernel3/
           fi
-
+          
           cd AnyKernel3
           zip -r9 ../OnePlus9R-Kernel-Finished.zip .
 
